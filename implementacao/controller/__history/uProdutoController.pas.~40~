@@ -1,0 +1,88 @@
+unit uProdutoController;
+
+interface
+uses
+  uProdutoModel, uProdutoDao, System.SysUtils;
+
+type
+  TProdutoController = class
+    private
+      FProduto: TProduto;
+      FProdutoDAO: TProdutoDao;
+
+      procedure SetProduto(const Value: TProduto);
+      procedure SetProdutoDAO(const Value: TProdutoDao);
+
+    public
+      constructor Create;
+      destructor Destroy; override;
+
+      function Inserir(var sErro: string): Boolean;
+      function Alterar(var sErro: string): Boolean;
+      function Excluir(var sErro: string): Boolean;
+      function GerarId: Integer;
+      procedure CarregarProduto(iCodigo: Integer);
+
+      property Produto : TProduto read FProduto write SetProduto;
+      property ProdutoDAO : TProdutoDao read FProdutoDAO write SetProdutoDAO;
+  end;
+
+implementation
+
+{ TProdutoController }
+
+function TProdutoController.Alterar(var sErro: string): Boolean;
+begin
+   Result:= ProdutoDAO.Alterar(Produto, sErro);
+end;
+
+function TProdutoController.GerarId: Integer;
+begin
+  Result:= ProdutoDAO.GerarId;
+end;
+
+procedure TProdutoController.CarregarProduto(iCodigo: Integer);
+begin
+  ProdutoDAO.CarregarProduto(iCodigo);
+end;
+
+constructor TProdutoController.Create;
+begin
+  ProdutoDAO := TProdutoDao.Create;
+  Produto    := TProduto.Create;
+end;
+
+destructor TProdutoController.Destroy;
+begin
+  FreeAndNil(ProdutoDAO);
+  FreeAndNil(Produto);
+  inherited;
+end;
+
+function TProdutoController.Excluir(var sErro: string): Boolean;
+begin
+  Result:= ProdutoDAO.Excluir(sErro);
+end;
+
+function TProdutoController.Inserir(var sErro: string): Boolean;
+begin
+  if Produto.Descricao = EmptyStr then
+  begin
+    raise EArgumentException.Create('Nome precisa ser preenchido.');
+    Result := False
+  end
+  else
+  Result:= ProdutoDAO.Inserir(sErro);
+end;
+
+procedure TProdutoController.SetProduto(const Value: TProduto);
+begin
+  FProduto := Value;
+end;
+
+procedure TProdutoController.SetProdutoDAO(const Value: TProdutoDao);
+begin
+  FProdutoDAO := Value;
+end;
+
+end.

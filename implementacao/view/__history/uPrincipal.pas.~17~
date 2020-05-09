@@ -1,0 +1,64 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, uconexao,
+  Data.DB,  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, FireDAC.Phys.PG, FireDAC.VCLUI.Wait, FireDAC.Comp.UI,
+  VirtualTrees, uFuncoes, Vcl.ExtCtrls;
+
+type
+  TFPrincipal = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    btnTelaCadastro: TButton;
+    btnVenda: TButton;
+    btnRelatorio: TButton;
+    procedure btnTelaCadastroClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    conectar : Tconexao;
+    DtSource : TDataSource;
+    Query    : TFDQuery;
+  public
+    procedure conexao;
+  end;
+
+var
+  FPrincipal: TFPrincipal;
+
+implementation
+
+uses
+  uCadastro;
+
+{$R *.dfm}
+
+procedure TFPrincipal.btnTelaCadastroClick(Sender: TObject);
+var telaCadastro: TFCadastro;
+begin
+  telaCadastro := TFcadastro.Create(nil);
+  try
+    telaCadastro.ShowModal;
+  finally
+    telaCadastro.Free;
+  end;
+
+end;
+
+procedure TFPrincipal.conexao;
+var Q : iniciaConexao;
+begin
+  Q := iniciaConexao.Create;
+  Q.conexao;
+end;
+
+procedure TFPrincipal.FormShow(Sender: TObject);
+begin
+ conexao;
+end;
+
+end.

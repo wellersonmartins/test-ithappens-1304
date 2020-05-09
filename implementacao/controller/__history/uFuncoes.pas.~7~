@@ -1,0 +1,41 @@
+unit uFuncoes;
+
+interface
+
+uses
+  uconexao, Data.DB, FireDAC.Comp.Client;
+
+type
+  iniciaConexao = class
+    public
+      conectar : Tconexao;
+      DtSource : TDataSource;
+      Query    : TFDQuery;
+    public
+      procedure conexao;
+  end;
+
+implementation
+
+{ iniciaConexao }
+
+procedure iniciaConexao.conexao;
+begin
+  conectar := Tconexao.Create;
+  Query    := TFDQuery.Create(nil);
+  DtSource := TDataSource.Create(nil);
+  try
+    conectar.DataBase := 'TesteVendas';
+    conectar.UserName := 'postgres';
+    conectar.Password := '0911';
+    conectar.Server   := 'localhost';
+    conectar.DriverId := 'PG';
+    Query.Connection := conectar.Conectar;
+  except
+    conectar.Destroy;
+    Query   .Destroy;
+    DtSource.Destroy;
+  end;
+end;
+
+end.

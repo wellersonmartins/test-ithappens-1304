@@ -1,0 +1,87 @@
+unit uPesquisaPedido;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VirtualTrees, uVendasController,
+  Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TFPesquisaPedido = class(TForm)
+    cGrid: TVirtualStringTree;
+    tmrConsulta: TTimer;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure btnPesquisaProdutoClick(Sender: TObject);
+    procedure cGridGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
+    procedure tmrConsultaTimer(Sender: TObject);
+    procedure txtcodProdutoChange(Sender: TObject);
+  private
+  public
+    CtrVendas: TVendasController;
+    PesquisaPadrao: Integer;
+  end;
+
+var
+  FPesquisaPedido: TFPesquisaPedido;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFPesquisaPedido.btnPesquisaProdutoClick(Sender: TObject);
+begin
+  CtrVendas.CarregaPedido(0);
+
+  cGrid.Clear;
+  cGrid.RootNodeCount := CtrVendas.VendasList.Count;
+end;
+
+procedure TFPesquisaPedido.cGridGetText(Sender: TBaseVirtualTree;
+  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
+  var CellText: string);
+begin
+  case column of
+     00: CellText := FormatFloat('000000', CtrVendas.VendasList[Node.Index].car_codigo);
+     01: CellText := FormatFloat(',0.00', CtrVendas.VendasList[Node.Index].car_valorTotal);
+  end;
+end;
+
+procedure TFPesquisaPedido.FormCreate(Sender: TObject);
+begin
+  CtrVendas := TVendasController.Create;
+end;
+
+procedure TFPesquisaPedido.FormDestroy(Sender: TObject);
+begin
+  CtrVendas.Destroy;
+end;
+
+procedure TFPesquisaPedido.tmrConsultaTimer(Sender: TObject);
+begin
+   tmrConsulta.Enabled := False;
+
+    if PesquisaPadrao <> 00 then
+    begin
+      CtrVendas.CarregaPedido(PesquisaPadrao);
+
+      cGrid.Clear;
+      cGrid.RootNodeCount := CtrVendas.VendasList.Count;
+
+      if CtrVendas.VendasList.Count = 1 then
+      begin
+         CtrVendas.NewPed := CtrVendas.VendasList[0] ;
+
+         ModalResult := mrOk;
+      end;
+    end;
+end;
+
+procedure TFPesquisaPedido.txtcodProdutoChange(Sender: TObject);
+begin
+  cGrid.Clear;
+end;
+
+end.

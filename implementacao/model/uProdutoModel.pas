@@ -1,0 +1,76 @@
+unit uProdutoModel;
+
+interface
+
+uses
+  System.SysUtils,  System.Generics.Collections;
+
+type
+  TProduto =  class
+   private
+    Fvalor: Currency;
+    FDescricao: string;
+    FEstoque: Integer;
+    FID: Integer;
+    FDepartamento: string;
+    FUnidade: string;
+    procedure SetDepartamento(const Value: string);
+    procedure SetDescricao(const Value: string);
+    procedure SetEstoque(const Value: Integer);
+    procedure SetID(const Value: Integer);
+    procedure SetUnidade(const Value: string);
+    procedure Setvalor(const Value: Currency);
+
+   public
+     property ID: Integer read FID write SetID;
+     property Descricao: string read FDescricao write SetDescricao;
+     property Unidade: string read FUnidade write SetUnidade;
+     property valor: Currency read Fvalor write Setvalor;
+     property Departamento: string read FDepartamento write SetDepartamento;
+     property Estoque: Integer read FEstoque write SetEstoque;
+
+   end;
+
+type
+  TProdutoList = TList<TProduto>;
+
+
+implementation
+
+
+{ TProduto }
+
+procedure TProduto.SetDepartamento(const Value: string);
+begin
+  FDepartamento := Value;
+end;
+
+procedure TProduto.SetDescricao(const Value: string);
+begin
+  FDescricao := Value;
+end;
+
+procedure TProduto.SetEstoque(const Value: Integer);
+begin
+  FEstoque := Value;
+end;
+
+procedure TProduto.SetID(const Value: Integer);
+begin
+  FID := Value;
+end;
+
+procedure TProduto.SetUnidade(const Value: string);
+begin
+  FUnidade := Value;
+end;
+
+procedure TProduto.Setvalor(const Value: Currency);
+begin
+  if Value < 0 then
+    Fvalor := 0.0
+  else
+    Fvalor := Value;
+end;
+
+end.

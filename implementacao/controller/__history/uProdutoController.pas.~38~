@@ -1,0 +1,95 @@
+unit uProdutoController;
+
+interface
+uses
+  uProdutoModel, uProdutoDao, System.SysUtils;
+
+type
+  TProdutoController = class
+    private
+      FProduto: TProduto;
+      FProdutoDAO: TProdutoDao;
+
+      procedure SetProduto(const Value: TProduto);
+      procedure SetProdutoDAO(const Value: TProdutoDao);
+
+    public
+      constructor Create;
+      destructor Destroy; override;
+
+      function Inserir(oProduto: Tproduto; var sErro: string): Boolean;
+      function Alterar(oProduto: Tproduto; var sErro: string): Boolean;
+      function Excluir(oProduto: Tproduto; var sErro: string): Boolean;
+      function GerarId: Integer;
+      procedure CarregarProduto(oProduto: Tproduto; iCodigo: Integer);
+
+      property Produto : TProduto read FProduto write SetProduto;
+      property ProdutoDAO : TProdutoDao read FProdutoDAO write SetProdutoDAO;
+  end;
+
+var
+  CtrProduto: TProdutoController;
+
+implementation
+
+{ TProdutoController }
+
+function TProdutoController.Alterar(oProduto: Tproduto;
+  var sErro: string): Boolean;
+begin
+   Result:= ProdutoDAO.Alterar(oProduto, sErro);
+end;
+
+function TProdutoController.GerarId: Integer;
+begin
+  Result:= ProdutoDAO.GerarId;
+end;
+
+procedure TProdutoController.CarregarProduto(oProduto: Tproduto;
+  iCodigo: Integer);
+begin
+  ProdutoDAO.CarregarProduto(oProduto, iCodigo);
+end;
+
+constructor TProdutoController.Create;
+begin
+  ProdutoDAO := TProdutoDao.Create;
+  Produto    := TProduto.Create;
+end;
+
+destructor TProdutoController.Destroy;
+begin
+  FreeAndNil(ProdutoDAO);
+  FreeAndNil(Produto);
+  inherited;
+end;
+
+function TProdutoController.Excluir(oProduto: Tproduto;
+  var sErro: string): Boolean;
+begin
+  Result:= ProdutoDAO.Excluir(oProduto, sErro);
+end;
+
+function TProdutoController.Inserir(oProduto: Tproduto;
+  var sErro: string): Boolean;
+begin
+  if oProduto.Descricao = EmptyStr then
+  begin
+    raise EArgumentException.Create('Nome precisa ser preenchido.');
+    Result := False
+  end
+  else
+  Result:= ProdutoDAO.Inserir(oProduto, sErro);
+end;
+
+procedure TProdutoController.SetProduto(const Value: TProduto);
+begin
+  FProduto := Value;
+end;
+
+procedure TProdutoController.SetProdutoDAO(const Value: TProdutoDao);
+begin
+  FProdutoDAO := Value;
+end;
+
+end.

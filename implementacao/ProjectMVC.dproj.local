@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019/10/01 12:46:53.000.072,=C:\Users\Pdv2\Documents\Mailson\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/01 12:47:14.000.191,C:\Users\Pdv2\Documents\Mailson\ProjetoMvc\Unit1.pas=C:\Users\Pdv2\Documents\Mailson\ProjetoMvc\model\uProdutoModel.pas</Transaction>
+    <Transaction>2019/10/01 12:54:08.000.209,=C:\Users\Pdv2\Documents\Mailson\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/01 12:54:37.000.729,C:\Users\Pdv2\Documents\Mailson\ProjetoMvc\Unit1.pas=C:\Users\Pdv2\Documents\Mailson\ProjetoMvc\controller\uProdutoController.pas</Transaction>
+    <Transaction>2019/10/01 13:06:29.000.345,=C:\Users\Pdv2\Documents\Mailson\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/01 13:06:51.000.511,C:\Users\Pdv2\Documents\Mailson\ProjetoMvc\dao\uProdutoDao.pas=C:\Users\Pdv2\Documents\Mailson\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/02 20:03:57.000.530,=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/02 20:04:09.000.577,C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\controller\uFuncoes.pas=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/02 23:20:19.000.792,=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/02 23:21:13.000.176,C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\view\uVendas.pas</Transaction>
+    <Transaction>2019/10/02 23:21:13.000.176,C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.dfm=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\view\uVendas.dfm</Transaction>
+    <Transaction>2019/10/03 22:47:30.000.476,=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/03 22:47:45.000.173,C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\model\uVendasModel.pas=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/03 22:51:07.000.433,=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/03 22:51:30.000.432,C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\dao\uVendasDao.pas=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/03 23:02:48.000.204,=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/03 23:03:06.000.493,C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\controller\uVendasController.pas=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/04 19:02:44.000.502,=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/04 19:03:10.000.801,C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\view\uPesquisaProduto.pas</Transaction>
+    <Transaction>2019/10/04 19:03:10.000.801,C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.dfm=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\view\uPesquisaProduto.dfm</Transaction>
+    <Transaction>2019/10/04 19:03:25.000.091,=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas</Transaction>
+    <Transaction>2019/10/04 19:03:53.000.030,C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\Unit1.pas=C:\Users\m_fer\Documents\RAD Studio\Projects\ProjetoMvc\controller\uPesquisaController.pas</Transaction>
+    <Transaction>2020/03/09 20:46:37.000.597,=C:\Users\Mailson\Documents\Delphi\Delphi\ProjetoMvc\view\uPesquisaPedido.pas</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="controller"/>
+    <File Path="controller\uFuncoes.pas"/>
+    <File Path="controller\uProdutoController.pas"/>
+    <File Path="controller\uVendasController.pas"/>
+    <File Path="dao"/>
+    <File Path="dao\uconexao.pas"/>
+    <File Path="dao\uProdutoDao.pas"/>
+    <File Path="dao\uVendasDao.pas"/>
+    <File Path="model"/>
+    <File Path="model\uProdutoModel.pas"/>
+    <File Path="model\uVendasModel.pas"/>
+    <File Path="view"/>
+    <File Path="view\uCadastro.pas"/>
+    <File Path="view\uCadastro.dfm"/>
+    <File Path="view\uPrincipal.pas"/>
+    <File Path="view\uPrincipal.dfm"/>
+    <File Path="view\uVendas.pas"/>
+    <File Path="view\uVendas.dfm"/>
+    <File Path="view\uPesquisaProduto.pas"/>
+    <File Path="view\uPesquisaProduto.dfm"/>
+  </ProjectSortOrder>
+</BorlandProject>

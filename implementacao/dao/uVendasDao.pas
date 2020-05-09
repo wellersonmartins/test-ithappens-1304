@@ -1,0 +1,188 @@
+unit uVendasDao;
+
+interface
+
+uses
+  uVendasModel, uFuncoes, System.SysUtils, System.Generics.Collections;
+
+type
+  TvendasDao = class
+    private
+
+    public
+      function NewPed: Integer;
+      function VerificaPedido: Boolean;
+      function Inserir(oVendas: TVendasModel; out sErro: String):Boolean;
+      function FinalizaPedido(oVendas: TVendaList; out sErro: String):Boolean;
+      procedure CarregaPedido(VendaList: TVendaList; Pedido: Integer);
+  end;
+
+var
+  DaoVendas : TvendasDao;
+
+implementation
+
+{ TvendasDao }
+
+procedure TvendasDao.CarregaPedido(VendaList: TVendaList; Pedido: Integer);
+var Con: iniciaConexao;
+  I: Integer;
+var V: TvendasModel;
+begin
+  Con := iniciaConexao.Create;
+  try
+    Con.conexao;
+    Con.Query.SQL.Clear;
+    Con.Query.SQL.Add('select                        ');
+    Con.Query.SQL.Add('   car_codigo                 ');
+    Con.Query.SQL.Add('  ,car_codproduto             ');
+    Con.Query.SQL.Add('  ,pro_descricao              ');
+    Con.Query.SQL.Add('  ,car_quantidade             ');
+    Con.Query.SQL.Add('  ,car_valorunitario          ');
+    Con.Query.SQL.Add('  ,car_valortotal             ');
+    Con.Query.SQL.Add('from carrinhoProduto          ');
+    Con.Query.SQL.Add('inner join cadastroProduto on pro_codigo = car_codproduto ');
+    Con.Query.SQL.Add('where car_finalizado = False  ');
+    if Pedido > 0 then
+    begin
+      Con.Query.SQL.Add('and car_codigo = :car_codigo');
+      COn.Query.ParamByName('car_codigo').AsInteger := Pedido;
+    end;
+    Con.Query.Open;
+
+    VendaList.Clear;
+    for I := 0 to Con.Query.RecordCount - 1 do
+    begin
+       V := TvendasModel.Create;
+
+       V.car_codigo        := Con.Query.FieldByName('car_codigo').AsInteger;
+       V.car_codProduto    := Con.Query.FieldByName('car_codproduto').AsInteger;
+       V.car_descriPro     := Con.Query.FieldByName('pro_descricao').AsString;
+       V.car_quantidade    := Con.Query.FieldByName('car_quantidade').AsInteger;
+       V.car_valorUnitario := Con.Query.FieldByName('car_valorunitario').AsCurrency;
+       v.car_valorTotal    := Con.Query.FieldByName('car_valortotal').AsCurrency;
+
+       VendaList.Add(V);
+       Con.Query.Next;
+    end;
+  finally
+    FreeAndNil(Con);
+  end;
+end;
+
+function TvendasDao.VerificaPedido: Boolean;
+var Con : iniciaConexao;
+begin
+   Con := iniciaConexao.Create;
+   try
+      Con.conexao;
+
+      Con.Query.SQL.Clear;
+      Con.Query.SQL.Add('select	* from carrinhoProduto where car_finalizado = False  ');
+      Con.Query.SQL.SaveToFile('C:\Temp\teste.txt');
+      Con.Query.Open;
+      if Con.Query.RecordCount > 0 then
+        Result:= True
+      else
+        Result:= False;
+   finally
+     con.Destroy;
+   end;
+end;
+
+function TvendasDao.FinalizaPedido(oVendas: TVendaList;
+  out sErro: String): Boolean;
+var Con : iniciaConexao;
+begin
+   Con := iniciaConexao.Create;
+   try
+     Con.conexao;
+
+     Con.Query.SQL.Clear;
+      begin
+        Con.Query.SQL.Add('Update carrinhoProduto set    ');
+        Con.Query.SQL.Add(' car_finalizado 	= True       ');
+        Con.Query.SQL.Add('Where car_codigo = :car_codigo');
+      end;
+
+      Con.Query.ParamByName('car_codigo').AsInteger := oVendas.Items[0].car_codigo;
+      try
+        Con.Query.SQL.SaveToFile('C:\Temp\teste.txt');
+        Con.Query.ExecSQL;
+        Result := True;
+      except on E: Exception do
+        begin
+          sErro:= 'Erro ao finalizar a venda: ' + #13 + E.Message;
+          Result := False;
+        end;
+      end;
+   finally
+     Con.Destroy;
+   end;
+end;
+
+function TvendasDao.Inserir(oVendas: TVendasModel; out sErro: String): Boolean;
+var Con : iniciaConexao;
+begin
+   Con := iniciaConexao.Create;
+   try
+      Con.conexao;
+
+      Con.Query.SQL.Clear;
+      begin
+        Con.Query.SQL.Add('Insert into carrinhoProduto');
+        Con.Query.SQL.Add('    ( car_codigo           ');
+        Con.Query.SQL.Add('     ,car_codProduto       ');
+        Con.Query.SQL.Add('     ,car_quantidade       ');
+        Con.Query.SQL.Add('     ,car_valorUnitario    ');
+        Con.Query.SQL.Add('     ,car_valorTotal       ');
+        Con.Query.SQL.Add('     ,car_finalizado 	    ');
+        Con.Query.SQL.Add('       )values(            ');
+        Con.Query.SQL.Add('      :car_codigo          ');
+        Con.Query.SQL.Add('     ,:car_codProduto      ');
+        Con.Query.SQL.Add('     ,:car_quantidade      ');
+        Con.Query.SQL.Add('     ,:car_valorUnitario   ');
+        Con.Query.SQL.Add('     ,:car_valorTotal      ');
+        Con.Query.SQL.Add('     ,:car_finalizado )    ');
+      end;
+
+      Con.Query.ParamByName('car_codigo').AsInteger        := oVendas.car_codigo;
+      Con.Query.ParamByName('car_codProduto').AsInteger    := oVendas.car_codProduto;
+      Con.Query.ParamByName('car_quantidade').AsInteger    := oVendas.car_quantidade;
+      Con.Query.ParamByName('car_valorUnitario').AsFloat   := oVendas.car_valorUnitario;
+      Con.Query.ParamByName('car_valorTotal').AsFloat      := oVendas.car_valorTotal;
+      Con.Query.ParamByName('car_finalizado').AsBoolean    := oVendas.car_finalizado;
+
+      try
+        Con.Query.SQL.SaveToFile('C:\Temp\teste.txt');
+        Con.Query.ExecSQL;
+        Result := True;
+      except on E: Exception do
+        begin
+          sErro:= 'Erro ao inserir venda: ' + #13 + E.Message;
+          Result := False;
+        end;
+      end;
+   finally
+     con.Destroy;
+   end;
+end;
+
+function TvendasDao.NewPed: Integer;
+var Con : iniciaConexao;
+begin
+   Con := iniciaConexao.Create;
+   try
+      Con.conexao;
+
+      Con.Query.SQL.Clear;
+      Con.Query.SQL.Add('select max(car_codigo) + 1 as seq from carrinhoProduto');
+      Con.Query.Open;
+      Result := Con.Query.FieldByName('seq').AsInteger;
+   finally
+     con.Destroy;
+   end;
+end;
+
+
+end.

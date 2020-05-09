@@ -1,0 +1,125 @@
+object FPrincipal: TFPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Principal'
+  ClientHeight = 373
+  ClientWidth = 721
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  WindowState = wsMaximized
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 715
+    Height = 70
+    Align = alTop
+    Color = clSkyBlue
+    ParentBackground = False
+    TabOrder = 0
+    object btnTelaCadastro: TButton
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 75
+      Height = 62
+      Align = alLeft
+      Caption = 'Cadastrar'
+      TabOrder = 0
+      OnClick = btnTelaCadastroClick
+      ExplicitLeft = 16
+      ExplicitTop = 14
+      ExplicitHeight = 57
+    end
+    object btnVenda: TButton
+      AlignWithMargins = True
+      Left = 85
+      Top = 4
+      Width = 75
+      Height = 62
+      Align = alLeft
+      Caption = 'Venda'
+      TabOrder = 1
+      OnClick = btnTelaCadastroClick
+      ExplicitLeft = 112
+      ExplicitTop = 14
+      ExplicitHeight = 57
+    end
+    object btnRelatorio: TButton
+      AlignWithMargins = True
+      Left = 166
+      Top = 4
+      Width = 75
+      Height = 62
+      Align = alLeft
+      Caption = 'Relat'#243'rio'
+      TabOrder = 2
+      OnClick = btnTelaCadastroClick
+      ExplicitLeft = 208
+      ExplicitTop = 13
+      ExplicitHeight = 57
+    end
+    object btnSair: TButton
+      AlignWithMargins = True
+      Left = 636
+      Top = 4
+      Width = 75
+      Height = 62
+      Align = alRight
+      Caption = 'Sair'
+      TabOrder = 3
+      OnClick = btnSairClick
+      ExplicitLeft = 624
+      ExplicitTop = 14
+      ExplicitHeight = 57
+    end
+  end
+  object Panel2: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 79
+    Width = 715
+    Height = 291
+    Align = alClient
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 1
+    ExplicitLeft = 304
+    ExplicitTop = 158
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object vrtlstrngtr1: TVirtualStringTree
+      Left = 200
+      Top = 72
+      Width = 305
+      Height = 121
+      Header.AutoSizeIndex = 0
+      Header.Font.Charset = DEFAULT_CHARSET
+      Header.Font.Color = clWindowText
+      Header.Font.Height = -11
+      Header.Font.Name = 'Tahoma'
+      Header.Font.Style = []
+      RootNodeCount = 5
+      TabOrder = 0
+      Columns = <
+        item
+          Position = 0
+          WideText = 'codigo'
+        end
+        item
+          Position = 1
+          WideText = 'Descri'#231#227'o'
+        end>
+    end
+  end
+end

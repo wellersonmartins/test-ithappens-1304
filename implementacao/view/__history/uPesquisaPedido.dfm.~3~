@@ -1,0 +1,69 @@
+object FPesquisaPedido: TFPesquisaPedido
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Pesquisa Pedido'
+  ClientHeight = 260
+  ClientWidth = 503
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  DesignSize = (
+    503
+    260)
+  PixelsPerInch = 98
+  TextHeight = 13
+  object cGrid: TVirtualStringTree
+    Left = 8
+    Top = 40
+    Width = 485
+    Height = 212
+    Alignment = taCenter
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlue
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Header.AutoSizeIndex = 0
+    Header.Background = clSilver
+    Header.Font.Charset = DEFAULT_CHARSET
+    Header.Font.Color = clWindowText
+    Header.Font.Height = -11
+    Header.Font.Name = 'Tahoma'
+    Header.Font.Style = [fsBold]
+    Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+    ParentFont = False
+    TabOrder = 0
+    TreeOptions.SelectionOptions = [toFullRowSelect]
+    OnGetText = cGridGetText
+    Columns = <
+      item
+        Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coUseCaptionAlignment]
+        Position = 0
+        Width = 100
+        WideText = 'Pedido'
+      end
+      item
+        Alignment = taRightJustify
+        CaptionAlignment = taCenter
+        Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coUseCaptionAlignment]
+        Position = 1
+        Width = 100
+        WideText = 'Valor'
+      end>
+  end
+  object tmrConsulta: TTimer
+    Interval = 100
+    OnTimer = tmrConsultaTimer
+    Left = 104
+    Top = 56
+  end
+end

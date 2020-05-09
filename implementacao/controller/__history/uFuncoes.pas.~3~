@@ -1,0 +1,44 @@
+unit uFuncoes;
+
+interface
+
+uses
+  uconexao, Data.DB, FireDAC.Comp.Client;
+
+type
+  iniciaConexao = class
+    private
+      conectar : Tconexao;
+      DtSource : TDataSource;
+      Query    : TFDQuery;
+    public
+      procedure conexao;
+      constructor Create;
+      destructor Destroy; override;
+  end;
+
+implementation
+
+{ iniciaConexao }
+
+procedure iniciaConexao.conexao;
+begin
+
+end;
+
+constructor iniciaConexao.Create;
+begin
+  conectar := Tconexao.Create;
+  Query    := TFDQuery.Create(nil);
+  DtSource := TDataSource.Create(nil);
+end;
+
+destructor iniciaConexao.Destroy;
+begin
+  conectar.Destroy;
+  Query   .Destroy;
+  DtSource.Destroy;
+  inherited;
+end;
+
+end.

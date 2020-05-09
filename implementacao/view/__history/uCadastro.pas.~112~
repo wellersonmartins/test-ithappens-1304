@@ -1,0 +1,255 @@
+unit uCadastro;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Mask, Vcl.StdCtrls, Vcl.ComCtrls,
+  Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, Data.DB,
+  FireDAC.Comp.Client, uProdutoController;
+
+type
+  TFcadastro = class(TForm)
+    Panel1: TPanel;
+    btnSair: TButton;
+    Panel4: TPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label9: TLabel;
+    txtCodPro: TEdit;
+    txtDescPro: TEdit;
+    txtValor: TEdit;
+    CmbUN: TComboBox;
+    CmbDepartamento: TComboBox;
+    txtEstoque: TEdit;
+    Panel3: TPanel;
+    btnCancelPro: TButton;
+    btnDelPro: TButton;
+    btnAltPro: TButton;
+    btnNewPro: TButton;
+    btnInserir: TButton;
+    procedure btnSairClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure btnInserirClick(Sender: TObject);
+    procedure btnAltProClick(Sender: TObject);
+    procedure btnDelProClick(Sender: TObject);
+    procedure btnCancelProClick(Sender: TObject);
+    procedure btnNewProClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    procedure limpaCampos;
+    procedure Inserir(sErro: String = '');
+    procedure Alterar(sErro: String = '');
+    procedure Excluir(sErro: String = '');
+    procedure PesquisaPro;
+    function CarregaNovoPro: Integer;
+  public
+    procedure Habilita;
+    procedure Desabilita;
+    procedure configuracao(Tag: Integer);
+  end;
+
+var
+  Fcadastro: TFcadastro;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFcadastro.Alterar(sErro: String);
+var CtrProduto : TProdutoController;
+begin
+   CtrProduto := TProdutoController.Create;
+   try
+     CtrProduto.Produto.ID           := StrToInt(txtCodPro.Text);
+     CtrProduto.Produto.Descricao    := txtDescPro.Text;
+     CtrProduto.Produto.Unidade      := CmbUN.Text;
+     CtrProduto.Produto.valor        := StrToFloat(txtValor.Text);
+     CtrProduto.Produto.Departamento := CmbDepartamento.Text;
+     CtrProduto.Produto.Estoque      := StrToInt(txtEstoque.Text);
+
+     if CtrProduto.Alterar(sErro) then
+     begin
+       ShowMessage('Produto alterado com sucesso!');
+       limpaCampos;
+     end
+     else
+      ShowMessage(sErro);
+   finally
+     FreeAndNil(CtrProduto);
+   end;
+end;
+
+procedure TFcadastro.btnAltProClick(Sender: TObject);
+begin
+  Alterar('');
+  configuracao(TButton(Sender).Tag);
+end;
+
+procedure TFcadastro.btnCancelProClick(Sender: TObject);
+begin
+  limpaCampos;
+  configuracao(TButton(Sender).Tag);
+end;
+
+procedure TFcadastro.btnDelProClick(Sender: TObject);
+begin
+  Excluir('');
+  configuracao(TButton(Sender).Tag);
+end;
+
+procedure TFcadastro.btnInserirClick(Sender: TObject);
+begin
+  Inserir('');
+  configuracao(TButton(Sender).Tag);
+end;
+
+procedure TFcadastro.btnNewProClick(Sender: TObject);
+begin
+  CarregaNovoPro;
+  configuracao(TButton(Sender).Tag);
+end;
+
+procedure TFcadastro.btnSairClick(Sender: TObject);
+var ControllerPro: TProdutoController;
+begin
+   Self.Close;
+end;
+
+function TFcadastro.CarregaNovoPro: Integer;
+var CtrProduto : TProdutoController;
+begin
+   CtrProduto := TProdutoController.Create;
+   try
+     txtCodPro.Text:= IntToStr(CtrProduto.GerarId);
+   finally
+     FreeAndNil(CtrProduto);
+   end;
+end;
+
+procedure TFcadastro.configuracao(Tag: Integer);
+begin
+   case Tag of
+     00:
+     begin
+       Habilita;
+       btnNewPro .Enabled := False;
+       btnAltPro .Enabled := False;
+       btnDelPro .Enabled := False;
+     end;
+     01,02,03,04:
+     begin
+       Desabilita;
+       limpaCampos;
+       btnNewPro .Enabled := True;
+     end;
+   end;
+end;
+
+procedure TFcadastro.Desabilita;
+begin
+   txtDescPro     .Enabled := False;
+   txtEstoque     .Enabled := False;
+   txtValor       .Enabled := False;
+   CmbUN          .Enabled := False;
+   CmbDepartamento.Enabled := False;
+   btnAltPro      .Enabled := False;
+   btnDelPro      .Enabled := False;
+   btnInserir     .Enabled := False;
+   btnCancelPro   .Enabled := False;
+end;
+
+procedure TFcadastro.Excluir(sErro: String);
+var CtrProduto : TProdutoController;
+begin
+   CtrProduto := TProdutoController.Create;
+   try
+     CtrProduto.Produto.ID := StrToInt(txtCodPro.Text);
+     if CtrProduto.Excluir(sErro) then
+     begin
+       ShowMessage('Excluido com sucesso!');
+       limpaCampos;
+     end
+     else
+      ShowMessage(sErro);
+   finally
+     FreeAndNil(CtrProduto);
+   end;
+end;
+
+procedure TFcadastro.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  case key of
+    #13: Perform(WM_NEXTDLGCTL,0,0);
+  end;
+end;
+
+procedure TFcadastro.FormShow(Sender: TObject);
+begin
+  Desabilita;
+end;
+
+procedure TFcadastro.Habilita;
+begin
+   txtDescPro     .Enabled := True;
+   txtEstoque     .Enabled := True;
+   txtValor       .Enabled := True;
+   CmbUN          .Enabled := True;
+   CmbDepartamento.Enabled := True;
+   btnAltPro      .Enabled := True;
+   btnDelPro      .Enabled := True;
+   btnInserir     .Enabled := True;
+   btnCancelPro   .Enabled := True;
+end;
+
+procedure TFcadastro.Inserir(sErro: String);
+var CtrProduto : TProdutoController;
+begin
+   CtrProduto := TProdutoController.Create;
+   try
+     CtrProduto.Produto.ID           := StrToInt(txtCodPro.Text);
+     CtrProduto.Produto.Descricao    := txtDescPro.Text;
+     CtrProduto.Produto.Unidade      := CmbUN.Text;
+     CtrProduto.Produto.valor        := StrToCurr(txtValor.Text);
+     CtrProduto.Produto.Departamento := CmbDepartamento.Text;
+     CtrProduto.Produto.Estoque      := StrToInt(txtEstoque.Text);
+
+     if CtrProduto.Inserir(sErro) then
+     begin
+       ShowMessage('Inserido com sucesso!');
+       limpaCampos;
+     end
+     else
+      ShowMessage(sErro);
+   finally
+     FreeAndNil(CtrProduto);
+   end;
+end;
+
+procedure TFcadastro.limpaCampos;
+begin
+  txtCodPro.Text := '';
+  txtDescPro.Text := '';
+  txtValor.Text := '';
+  txtEstoque.Text := '';
+  CmbUN.ItemIndex := -1;
+  CmbDepartamento.ItemIndex := -1;
+end;
+
+procedure TFcadastro.PesquisaPro;
+var CtrProduto : TProdutoController;
+begin
+   CtrProduto := TProdutoController.Create;
+   try
+
+   finally
+     CtrProduto.Free;
+   end;
+end;
+
+end.
